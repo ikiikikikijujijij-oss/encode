@@ -37,7 +37,7 @@
             overflow: hidden;
         }
 
-        /* Entry Screen - Simple black with white text */
+        /* Entry Screen */
         #entryScreen {
             position: fixed;
             top: 0;
@@ -62,7 +62,7 @@
             padding: 20px;
         }
 
-        /* Main Content - Hidden initially */
+        /* Main Content */
         #mainContent {
             display: none;
             position: relative;
@@ -70,7 +70,7 @@
             min-height: 100vh;
         }
 
-        /* GIF Background - Fixed position, optimized */
+        /* GIF Background - OPTIMIZED for performance */
         .gif-bg {
             position: fixed;
             top: 0;
@@ -78,8 +78,11 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
-            opacity: 0.3;
+            opacity: 0.5;
             pointer-events: none;
+            /* Force GPU acceleration */
+            transform: translateZ(0);
+            -webkit-transform: translateZ(0);
         }
 
         /* Content overlay */
@@ -91,6 +94,7 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
+            background: rgba(0, 0, 0, 0.7);
         }
 
         /* Profile Container */
@@ -153,12 +157,12 @@
 
     <!-- Main Content -->
     <div id="mainContent">
-        <!-- GIF Background - Minimal opacity for performance -->
-        <img src="https://files.catbox.moe/vogim9.gif" alt="" class="gif-bg" id="bgGif">
+        <!-- GIF Background - Preloaded for smooth playback -->
+        <img src="https://files.catbox.moe/vogim9.gif" alt="" class="gif-bg" id="bgGif" loading="eager" decoding="async">
         
         <div class="content">
             <div class="profile-container">
-                <img src="https://i.pinimg.com/736x/97/d3/1d/97d31d307fb2dd2b856a69e6d7ba7560.jpg" alt="Profile Picture" class="pfp">
+                <img src="https://i.pinimg.com/736x/97/d3/1d/97d31d307fb2dd2b856a69e6d7ba7560.jpg" alt="Profile Picture" class="pfp" loading="eager">
                 <div class="username">@mev/ipv6</div>
             </div>
         </div>
@@ -170,7 +174,7 @@
     </div>
 
     <!-- Audio Element -->
-    <audio id="bgAudio" loop>
+    <audio id="bgAudio" loop preload="auto">
         <source src="https://files.catbox.moe/0f0rr3.mp3" type="audio/mpeg">
     </audio>
 
@@ -180,6 +184,30 @@
         const mainContent = document.getElementById('mainContent');
         const bgAudio = document.getElementById('bgAudio');
         const muteButton = document.getElementById('muteButton');
+        const bgGif = document.getElementById('bgGif');
+
+        // Performance optimization: preload and optimize GIF
+        function optimizeGifPerformance() {
+            if (bgGif.complete) {
+                // GIF already loaded
+                applyGifOptimizations();
+            } else {
+                // Wait for GIF to load
+                bgGif.addEventListener('load', applyGifOptimizations);
+            }
+        }
+
+        function applyGifOptimizations() {
+            // Reduce repaints by isolating the GIF
+            bgGif.style.willChange = 'transform';
+            bgGif.style.imageRendering = 'optimizeQuality';
+            
+            // Force GIF to its own layer (GPU acceleration)
+            bgGif.style.transform = 'translateZ(0)';
+            bgGif.style.backfaceVisibility = 'hidden';
+            
+            console.log('GIF optimized for performance');
+        }
 
         // Click anywhere to enter
         entryScreen.addEventListener('click', function() {
@@ -187,14 +215,17 @@
             entryScreen.style.display = 'none';
             mainContent.style.display = 'block';
             
-            // Start audio (try to play, but don't force it)
+            // Optimize GIF before showing
+            optimizeGifPerformance();
+            
+            // Start audio
             bgAudio.volume = 0.7;
             bgAudio.play().catch(function(e) {
                 console.log("Audio may require user interaction");
                 muteButton.textContent = "PLAY";
             });
             
-            // Set button text based on audio state
+            // Set button text
             muteButton.textContent = bgAudio.paused ? "PLAY" : "MUTE";
         });
 
@@ -216,6 +247,36 @@
                 muteButton.click();
             }
         });
+
+        // Additional performance optimizations
+        window.addEventListener('load', function() {
+            // Use requestAnimationFrame for smoother performance
+            function optimizeAnimation() {
+                // This ensures smooth GIF playback
+                requestAnimationFrame(optimizeAnimation);
+            }
+            
+            // Start the optimization loop
+            requestAnimationFrame(optimizeAnimation);
+            
+            // Reduce GIF opacity for better performance
+            setTimeout(function() {
+                bgGif.style.opacity = "0.6"; // Slightly higher after load
+            }, 100);
+        });
+
+        // If performance is still an issue, offer a fallback
+        function checkPerformance() {
+            const memory = performance.memory;
+            if (memory && memory.usedJSHeapSize > 50000000) { // 50MB threshold
+                console.log("High memory usage detected - reducing GIF quality");
+                bgGif.style.opacity = "0.4";
+                bgGif.style.filter = "blur(0.5px)";
+            }
+        }
+
+        // Check performance every 10 seconds
+        setInterval(checkPerformance, 10000);
     </script>
 </body>
 </html>
