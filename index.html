@@ -65,19 +65,34 @@
             overflow: hidden;
         }
 
-        /* GIF Background - Zoomed Out */
+        /* GIF Background - Scaled Back */
         .gif-bg {
             position: fixed;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             object-fit: cover;
-            opacity: 0.3;
+            opacity: 0.2; /* Even more transparent */
             pointer-events: none;
             transform: translateZ(0);
             -webkit-transform: translateZ(0);
             filter: grayscale(100%) contrast(120%);
+            /* Scale it down to push it back */
+            transform: scale(0.8) translateZ(0);
+            transform-origin: center;
+        }
+
+        /* Dark overlay to make it recede more */
+        .bg-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6); /* Darker overlay */
+            pointer-events: none;
+            z-index: 1;
         }
 
         /* Content overlay */
@@ -88,8 +103,8 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            background: rgba(0, 0, 0, 0.4);
             perspective: 1000px;
+            z-index: 2; /* Above background */
         }
 
         /* Frames Container */
@@ -103,14 +118,14 @@
             transform-style: preserve-3d;
         }
 
-        /* Frame Styles - See-through */
+        /* Frame Styles - More See-through */
         .frame {
-            background: rgba(10, 10, 10, 0.6);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(15, 15, 15, 0.4); /* More transparent */
+            border: 1px solid rgba(255, 255, 255, 0.08); /* Subtler border */
             border-radius: 8px;
             padding: 25px;
-            backdrop-filter: blur(10px);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(12px); /* More blur for depth */
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6); /* Softer shadow */
             transition: transform 0.2s ease-out;
             color: #ffffff;
         }
@@ -122,10 +137,10 @@
             letter-spacing: 3px;
             text-transform: uppercase;
             margin-bottom: 20px;
-            color: rgba(255, 255, 255, 0.7);
+            color: rgba(255, 255, 255, 0.6); /* More subtle */
             text-align: center;
             padding-bottom: 8px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05); /* Very subtle */
         }
 
         /* Main Frame (left) */
@@ -139,7 +154,7 @@
             border-radius: 50%;
             object-fit: cover;
             margin: 0 auto 20px auto;
-            border: 2px solid rgba(255, 255, 255, 0.3);
+            border: 2px solid rgba(255, 255, 255, 0.2); /* More subtle */
             display: block;
             filter: grayscale(100%) contrast(120%);
             transition: all 0.4s;
@@ -147,7 +162,7 @@
 
         .main-pfp:hover {
             transform: scale(1.05);
-            border-color: rgba(255, 255, 255, 0.6);
+            border-color: rgba(255, 255, 255, 0.4);
         }
 
         .site-title {
@@ -158,11 +173,12 @@
             text-transform: uppercase;
             margin: 10px 0 15px 0;
             text-align: center;
+            opacity: 0.9;
         }
 
         .account-item {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.03); /* More transparent */
+            border: 1px solid rgba(255, 255, 255, 0.06); /* More subtle */
             padding: 10px 12px;
             border-radius: 6px;
             margin: 8px 0;
@@ -170,13 +186,13 @@
             font-size: 13px;
             letter-spacing: 1px;
             word-break: break-all;
-            color: rgba(255, 255, 255, 0.8);
+            color: rgba(255, 255, 255, 0.7); /* More subtle */
             transition: all 0.3s;
         }
 
         .account-item:hover {
-            background: rgba(255, 255, 255, 0.08);
-            border-color: rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.06);
+            border-color: rgba(255, 255, 255, 0.12);
             transform: translateX(3px);
         }
 
@@ -189,8 +205,8 @@
         .server-item {
             display: flex;
             align-items: center;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.03); /* More transparent */
+            border: 1px solid rgba(255, 255, 255, 0.06); /* More subtle */
             border-radius: 6px;
             padding: 12px;
             margin-bottom: 12px;
@@ -200,8 +216,8 @@
         }
 
         .server-item:hover {
-            background: rgba(255, 255, 255, 0.08);
-            border-color: rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.06);
+            border-color: rgba(255, 255, 255, 0.12);
             transform: translateY(-2px);
         }
 
@@ -210,8 +226,8 @@
             height: 40px;
             border-radius: 50%;
             object-fit: cover;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            background: rgba(20, 20, 20, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.1); /* More subtle */
+            background: rgba(20, 20, 20, 0.5); /* More transparent */
             flex-shrink: 0;
         }
 
@@ -223,7 +239,7 @@
         .server-name {
             font-size: 14px;
             font-weight: 400;
-            color: rgba(255, 255, 255, 0.9);
+            color: rgba(255, 255, 255, 0.8); /* More subtle */
             margin-bottom: 3px;
             white-space: nowrap;
             overflow: hidden;
@@ -232,23 +248,15 @@
 
         .server-members {
             font-size: 11px;
-            color: rgba(255, 255, 255, 0.5);
+            color: rgba(255, 255, 255, 0.4); /* More subtle */
             letter-spacing: 0.5px;
         }
 
         .server-join {
             flex-shrink: 0;
-            color: rgba(255, 255, 255, 0.4);
+            color: rgba(255, 255, 255, 0.3); /* More subtle */
             font-size: 12px;
-        }
-
-        /* Loading */
-        .loading {
-            color: rgba(255, 255, 255, 0.5);
-            font-size: 11px;
-            text-align: center;
-            padding: 20px 0;
-            font-style: italic;
+            opacity: 0.5;
         }
 
         /* Simple fade animation */
@@ -279,6 +287,10 @@
                 font-size: 18px;
                 letter-spacing: 3px;
             }
+            
+            .gif-bg {
+                transform: scale(1) translateZ(0); /* Reset scale on mobile */
+            }
         }
     </style>
 </head>
@@ -292,8 +304,11 @@
 
     <!-- Main Content -->
     <div id="mainContent">
-        <!-- GIF Background - Zoomed Out -->
+        <!-- GIF Background - Scaled back -->
         <img src="https://raw.githubusercontent.com/ikiikikikijujijij-oss/encode/refs/heads/main/ddda.gif" alt="" class="gif-bg" id="bgGif" loading="eager" decoding="async">
+        
+        <!-- Dark overlay to push background further back -->
+        <div class="bg-overlay"></div>
         
         <div class="content">
             <div class="frames-container" id="framesContainer">
@@ -319,7 +334,7 @@
                     <!-- Server 1 -->
                     <div class="server-item" id="server1">
                         <div class="server-icon" id="serverIcon1">
-                            <div style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; color: rgba(255,255,255,0.3); font-size: 14px;">
+                            <div style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; color: rgba(255,255,255,0.2); font-size: 14px;">
                                 ...
                             </div>
                         </div>
@@ -333,7 +348,7 @@
                     <!-- Server 2 -->
                     <div class="server-item" id="server2">
                         <div class="server-icon" id="serverIcon2">
-                            <div style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; color: rgba(255,255,255,0.3); font-size: 14px;">
+                            <div style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; color: rgba(255,255,255,0.2); font-size: 14px;">
                                 ...
                             </div>
                         </div>
@@ -358,7 +373,6 @@
         const entryScreen = document.getElementById('entryScreen');
         const mainContent = document.getElementById('mainContent');
         const bgAudio = document.getElementById('bgAudio');
-        const bgGif = document.getElementById('bgGif');
         
         // Server data
         const servers = [
@@ -434,7 +448,7 @@
                 const initials = guild.name 
                     ? guild.name.split(' ').map(word => word[0]).join('').toUpperCase().substring(0, 2)
                     : '??';
-                iconElement.innerHTML = `<div style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; color: rgba(255,255,255,0.5); font-size: 16px; font-weight: 300;">${initials}</div>`;
+                iconElement.innerHTML = `<div style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; color: rgba(255,255,255,0.4); font-size: 16px; font-weight: 300;">${initials}</div>`;
             }
             
             // Make clickable
@@ -477,7 +491,7 @@
                 loadServerData();
                 
                 // Start audio (muted by default, auto-plays)
-                bgAudio.volume = 0.4;
+                bgAudio.volume = 0.3; // Lower volume
                 bgAudio.play().catch(e => {
                     console.log("Audio requires interaction");
                 });
@@ -502,11 +516,11 @@
                 
                 // Apply subtle movement to frames
                 if (leftFrame) {
-                    leftFrame.style.transform = `translateX(${moveX * -8}px) translateY(${moveY * -8}px) rotateY(${moveX * 1}deg)`;
+                    leftFrame.style.transform = `translateX(${moveX * -6}px) translateY(${moveY * -6}px) rotateY(${moveX * 0.8}deg)`;
                 }
                 
                 if (rightFrame) {
-                    rightFrame.style.transform = `translateX(${moveX * 8}px) translateY(${moveY * 8}px) rotateY(${moveX * -1}deg)`;
+                    rightFrame.style.transform = `translateX(${moveX * 6}px) translateY(${moveY * 6}px) rotateY(${moveX * -0.8}deg)`;
                 }
             });
             
@@ -517,12 +531,12 @@
             });
         }
 
-        // Auto-enter after 3 seconds
+        // Auto-enter after 2 seconds
         setTimeout(() => {
             if (entryScreen.style.display !== 'none') {
                 entryScreen.click();
             }
-        }, 3000);
+        }, 2000);
 
         // Spacebar to mute/unmute audio
         document.addEventListener('keydown', function(e) {
