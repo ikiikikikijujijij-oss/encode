@@ -1,53 +1,221 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>@mev/ipv6</title>
-  
-  <!-- Open Graph / Discord Embed Tags -->
-  <meta property="og:title" content="@mev/ipv6">
-  <meta property="og:description" content="mev/ipv6's Profile">
-  <meta property="og:image" content="https://i.pinimg.com/736x/97/d3/1d/97d31d307fb2dd2b856a69e6d7ba7560.jpg">
-  <meta property="og:type" content="profile"> <!-- Optional, but helps for profile-like pages -->
-  <meta property="og:url" content="https://your-domain.com/your-page.html"> <!-- Replace with your actual URL -->
-  
-  <!-- Twitter Cards (required by Discord for large/thumbnail image previews) -->
-  <meta name="twitter:card" content="summary_large_image"> <!-- Use this for a large profile picture preview -->
-  <meta name="twitter:title" content="@mev/ipv6">
-  <meta name="twitter:description" content="mev/ipv6's Profile">
-  <meta name="twitter:image" content="https://i.pinimg.com/736x/97/d3/1d/97d31d307fb2dd2b856a69e6d7ba7560.jpg">
-  
-  <!-- Optional: Theme color for the embed sidebar -->
-  <meta name="theme-color" content="#FFFFFF">
-  
-  <style>
-    body { margin: 0; height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; background-color: #000000; font-family: 'Arial', sans-serif; overflow: hidden; position: relative; }
-    /* Animated background particles */
-    body::before { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: radial-gradient(circle at 50% 50%, rgba(255,255,255,0.08) 0%, transparent 60%); animation: breathe 12s ease-in-out infinite; pointer-events: none; }
-    @keyframes breathe { 0%, 100% { opacity: 0.4; transform: scale(1); } 50% { opacity: 0.6; transform: scale(1.1); } }
-    .pfp-container { position: relative; margin-bottom: 50px; animation: float 8s ease-in-out infinite; }
-    @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-20px); } }
-    .pfp { width: 320px; height: 320px; border-radius: 50%; object-fit: cover; filter: brightness(1.3) contrast(1.4) grayscale(20%); box-shadow: 0 0 30px #ffffff, 0 0 60px #ffffff, 0 0 100px #ffffff, 0 0 140px #ffffff; animation: glowPulse 5s ease-in-out infinite alternate, rotateSlow 30s linear infinite; transition: transform 0.3s ease; }
-    .pfp:hover { transform: scale(1.05); }
-    @keyframes glowPulse { 0% { box-shadow: 0 0 30px #ffffff, 0 0 60px #ffffff, 0 0 90px #ffffff, 0 0 120px #ffffff; } 100% { box-shadow: 0 0 40px #ffffff, 0 0 80px #ffffff, 0 0 130px #ffffff, 0 0 180px #ffffff; } }
-    @keyframes rotateSlow { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-    /* Glow ring around the PFP */
-    .pfp-container::after { content: ''; position: absolute; top: -40px; left: -40px; width: 400px; height: 400px; border-radius: 50%; border: 2px solid rgba(255,255,255,0.2); box-shadow: 0 0 80px #ffffff; animation: ringPulse 6s ease-in-out infinite; pointer-events: none; }
-    @keyframes ringPulse { 0%, 100% { transform: scale(1); opacity: 0.6; } 50% { transform: scale(1.15); opacity: 0.9; } }
-    .username { color: #ffffff; font-size: 56px; font-weight: bold; letter-spacing: 12px; text-transform: uppercase; text-shadow: 0 0 20px #ffffff, 0 0 40px #ffffff, 0 0 80px #ffffff, 0 0 120px #ffffff; animation: textGlow 3s ease-in-out infinite alternate, fadeInUp 2s ease-out forwards; opacity: 0; }
-    @keyframes textGlow { from { text-shadow: 0 0 20px #ffffff, 0 0 40px #ffffff, 0 0 60px #ffffff, 0 0 80px #ffffff; } to { text-shadow: 0 0 30px #ffffff, 0 0 60px #ffffff, 0 0 100px #ffffff, 0 0 160px #ffffff; } }
-    @keyframes fadeInUp { from { opacity: 0; transform: translateY(50px); } to { opacity: 1; transform: translateY(0); } }
-    /* Subtle scanline effect */
-    body::after { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: repeating-linear-gradient( 0deg, transparent, transparent 2px, rgba(255,255,255,0.03) 2px, rgba(255,255,255,0.03) 4px ); pointer-events: none; animation: scan 8s linear infinite; }
-    @keyframes scan { 0% { transform: translateY(-100%); } 100% { transform: translateY(100%); } }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@mev/ipv6</title>
+    
+    <!-- Open Graph / Discord Embed Tags -->
+    <meta property="og:title" content="@mev/ipv6">
+    <meta property="og:description" content="Enter the depths of mev/ipv6">
+    <meta property="og:image" content="https://i.pinimg.com/736x/97/d3/1d/97d31d307fb2dd2b856a69e6d7ba7560.jpg">
+    <meta property="og:type" content="profile">
+    <meta property="og:url" content="https://your-domain.com/your-page.html">
+    
+    <!-- Twitter Cards -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="@mev/ipv6">
+    <meta name="twitter:description" content="Enter the depths of mev/ipv6">
+    <meta name="twitter:image" content="https://i.pinimg.com/736x/97/d3/1d/97d31d307fb2dd2b856a69e6d7ba7560.jpg">
+    
+    <!-- Theme color -->
+    <meta name="theme-color" content="#000000">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: Arial, sans-serif;
+            background: #000000;
+            color: #ffffff;
+            overflow: hidden;
+        }
+
+        /* Entry Screen - Simple black with white text */
+        #entryScreen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #000000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            cursor: pointer;
+        }
+
+        .entry-text {
+            color: #ffffff;
+            font-size: 18px;
+            font-weight: normal;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            text-align: center;
+            padding: 20px;
+        }
+
+        /* Main Content - Hidden initially */
+        #mainContent {
+            display: none;
+            position: relative;
+            width: 100%;
+            min-height: 100vh;
+        }
+
+        /* GIF Background - Fixed position, optimized */
+        .gif-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.3;
+            pointer-events: none;
+        }
+
+        /* Content overlay */
+        .content {
+            position: relative;
+            width: 100%;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Profile Container */
+        .profile-container {
+            text-align: center;
+            padding: 20px;
+        }
+
+        .pfp {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 20px;
+            border: 2px solid #ffffff;
+            filter: grayscale(100%);
+        }
+
+        .username {
+            color: #ffffff;
+            font-size: 24px;
+            font-weight: normal;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            margin-top: 10px;
+        }
+
+        /* Audio controls */
+        .audio-controls {
+            position: fixed;
+            bottom: 15px;
+            right: 15px;
+            z-index: 100;
+        }
+
+        .mute-btn {
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid #ffffff;
+            color: #ffffff;
+            padding: 6px 12px;
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 11px;
+            letter-spacing: 1px;
+        }
+
+        /* Remove focus outlines */
+        button:focus, button:active {
+            outline: none;
+        }
+    </style>
 </head>
 <body>
-  <div class="pfp-container">
-    <img src="https://i.pinimg.com/736x/97/d3/1d/97d31d307fb2dd2b856a69e6d7ba7560.jpg" alt="Profile Picture" class="pfp">
-  </div>
-  <div class="username">@mev/ipv6</div>
+    <!-- Entry Screen - click anywhere to enter -->
+    <div id="entryScreen">
+        <div class="entry-text">
+            ENTER THE DEPTHS OF MEV
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div id="mainContent">
+        <!-- GIF Background - Minimal opacity for performance -->
+        <img src="https://files.catbox.moe/vogim9.gif" alt="" class="gif-bg" id="bgGif">
+        
+        <div class="content">
+            <div class="profile-container">
+                <img src="https://i.pinimg.com/736x/97/d3/1d/97d31d307fb2dd2b856a69e6d7ba7560.jpg" alt="Profile Picture" class="pfp">
+                <div class="username">@mev/ipv6</div>
+            </div>
+        </div>
+        
+        <!-- Simple Audio Controls -->
+        <div class="audio-controls">
+            <button class="mute-btn" id="muteButton">MUTE</button>
+        </div>
+    </div>
+
+    <!-- Audio Element -->
+    <audio id="bgAudio" loop>
+        <source src="https://files.catbox.moe/0f0rr3.mp3" type="audio/mpeg">
+    </audio>
+
+    <script>
+        // Simple DOM elements
+        const entryScreen = document.getElementById('entryScreen');
+        const mainContent = document.getElementById('mainContent');
+        const bgAudio = document.getElementById('bgAudio');
+        const muteButton = document.getElementById('muteButton');
+
+        // Click anywhere to enter
+        entryScreen.addEventListener('click', function() {
+            // Hide entry screen
+            entryScreen.style.display = 'none';
+            mainContent.style.display = 'block';
+            
+            // Start audio (try to play, but don't force it)
+            bgAudio.volume = 0.7;
+            bgAudio.play().catch(function(e) {
+                console.log("Audio may require user interaction");
+                muteButton.textContent = "PLAY";
+            });
+            
+            // Set button text based on audio state
+            muteButton.textContent = bgAudio.paused ? "PLAY" : "MUTE";
+        });
+
+        // Simple mute toggle
+        muteButton.addEventListener('click', function() {
+            if (bgAudio.paused) {
+                bgAudio.play();
+                muteButton.textContent = "MUTE";
+            } else {
+                bgAudio.pause();
+                muteButton.textContent = "PLAY";
+            }
+        });
+
+        // Spacebar to toggle audio
+        document.addEventListener('keydown', function(e) {
+            if (e.code === 'Space') {
+                e.preventDefault();
+                muteButton.click();
+            }
+        });
+    </script>
 </body>
 </html>
