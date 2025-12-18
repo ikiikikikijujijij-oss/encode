@@ -24,14 +24,14 @@
         body {
             margin: 0;
             min-height: 100vh;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
             background: #000000;
             color: #ffffff;
             overflow: hidden;
             cursor: default;
         }
 
-        /* Entry Screen - Minimal */
+        /* Entry Screen - Modern Minimal */
         #entryScreen {
             position: fixed;
             top: 0;
@@ -44,16 +44,47 @@
             align-items: center;
             z-index: 1000;
             cursor: pointer;
+            transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        .entry-text {
-            color: #ffffff;
-            font-size: 24px;
-            font-weight: 300;
-            letter-spacing: 4px;
-            text-transform: uppercase;
+        .entry-content {
             text-align: center;
+            max-width: 600px;
+            padding: 2rem;
+        }
+
+        .entry-title {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 300;
+            letter-spacing: 8px;
+            text-transform: uppercase;
+            margin-bottom: 1.5rem;
+            color: #ffffff;
             opacity: 0.9;
+        }
+
+        .entry-subtitle {
+            font-size: 0.9rem;
+            font-weight: 300;
+            letter-spacing: 6px;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.6);
+            margin-bottom: 2rem;
+            opacity: 0;
+            animation: fadeInUp 1s ease 0.5s forwards;
+        }
+
+        .enter-hint {
+            font-size: 0.8rem;
+            font-weight: 300;
+            letter-spacing: 3px;
+            color: rgba(255, 255, 255, 0.3);
+            position: absolute;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            opacity: 0;
+            animation: fadeIn 2s ease 1.5s forwards;
         }
 
         /* Main Content */
@@ -63,308 +94,455 @@
             width: 100%;
             min-height: 100vh;
             overflow: hidden;
+            opacity: 0;
         }
 
-        /* GIF Background - Scaled Back */
-        .gif-bg {
+        /* Animated Gradient Background */
+        .gradient-bg {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            object-fit: cover;
-            opacity: 0.2; /* Even more transparent */
-            pointer-events: none;
-            transform: translateZ(0);
-            -webkit-transform: translateZ(0);
-            filter: grayscale(100%) contrast(120%);
-            /* Scale it down to push it back */
-            transform: scale(0.98) translateZ(0);
-            transform-origin: center;
-        }
-
-        /* Dark overlay to make it recede more */
-        .bg-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.6); /* Darker overlay */
-            pointer-events: none;
+            background: linear-gradient(45deg, #000000, #0a0a0a, #111111);
             z-index: 1;
+            pointer-events: none;
         }
 
-        /* Content overlay */
-        .content {
+        /* Animated Scanlines */
+        .scanlines {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                to bottom,
+                transparent 50%,
+                rgba(0, 255, 255, 0.03) 50%
+            );
+            background-size: 100% 4px;
+            z-index: 2;
+            pointer-events: none;
+            opacity: 0.3;
+            animation: scanline 8s linear infinite;
+        }
+
+        /* Glitch Effect */
+        .glitch-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                linear-gradient(90deg, transparent 49%, rgba(255, 0, 0, 0.02) 50%, transparent 51%),
+                linear-gradient(0deg, transparent 49%, rgba(0, 255, 255, 0.02) 50%, transparent 51%);
+            background-size: 50px 50px, 50px 50px;
+            opacity: 0.1;
+            z-index: 3;
+            pointer-events: none;
+            mix-blend-mode: overlay;
+        }
+
+        /* Main Container */
+        .main-container {
             position: relative;
             width: 100%;
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            perspective: 1000px;
-            z-index: 2; /* Above background */
+            padding: 2rem;
+            z-index: 10;
         }
 
-        /* Frames Container */
-        .frames-container {
-            display: flex;
-            justify-content: center;
-            align-items: flex-start;
-            gap: 60px;
-            max-width: 900px;
-            padding: 20px;
-            transform-style: preserve-3d;
+        /* Single Modern Frame */
+        .modern-frame {
+            background: rgba(10, 10, 10, 0.7);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 3rem;
+            width: 100%;
+            max-width: 500px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 
+                0 20px 40px rgba(0, 0, 0, 0.5),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            transform: translateY(20px);
+            opacity: 0;
         }
 
-        /* Frame Styles - More See-through */
-        .frame {
-            background: rgba(15, 15, 15, 0.4); /* More transparent */
-            border: 1px solid rgba(255, 255, 255, 0.08); /* Subtler border */
-            border-radius: 8px;
-            padding: 25px;
-            backdrop-filter: blur(12px); /* More blur for depth */
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6); /* Softer shadow */
-            transition: transform 0.2s ease-out;
-            color: #ffffff;
+        /* Frame Border Glow */
+        .modern-frame::before {
+            content: '';
+            position: absolute;
+            top: -1px;
+            left: -1px;
+            right: -1px;
+            bottom: -1px;
+            background: linear-gradient(45deg, 
+                transparent, 
+                rgba(0, 255, 255, 0.1), 
+                transparent);
+            border-radius: 21px;
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.3s ease;
         }
 
-        /* Frame Titles */
-        .frame-title {
-            font-size: 14px;
-            font-weight: 400;
-            letter-spacing: 3px;
-            text-transform: uppercase;
-            margin-bottom: 20px;
-            color: rgba(255, 255, 255, 0.6); /* More subtle */
+        .modern-frame:hover::before {
+            opacity: 1;
+        }
+
+        /* Profile Section */
+        .profile-header {
             text-align: center;
-            padding-bottom: 8px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05); /* Very subtle */
+            margin-bottom: 2.5rem;
         }
 
-        /* Main Frame (left) */
-        .main-frame {
-            width: 320px;
-        }
-
-        .main-pfp {
+        .profile-image {
             width: 120px;
             height: 120px;
             border-radius: 50%;
             object-fit: cover;
-            margin: 0 auto 20px auto;
-            border: 2px solid rgba(255, 255, 255, 0.2); /* More subtle */
-            display: block;
+            margin: 0 auto 1.5rem;
+            border: 2px solid rgba(255, 255, 255, 0.2);
             filter: grayscale(100%) contrast(120%);
-            transition: all 0.4s;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
         }
 
-        .main-pfp:hover {
+        .profile-image::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.05), transparent);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .profile-image:hover {
             transform: scale(1.05);
-            border-color: rgba(255, 255, 255, 0.4);
+            border-color: rgba(0, 255, 255, 0.4);
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.2);
         }
 
-        .site-title {
-            color: #ffffff;
-            font-size: 20px;
+        .profile-image:hover::after {
+            opacity: 1;
+        }
+
+        .profile-name {
+            font-size: 1.8rem;
             font-weight: 300;
-            letter-spacing: 4px;
+            letter-spacing: 6px;
             text-transform: uppercase;
-            margin: 10px 0 15px 0;
-            text-align: center;
-            opacity: 0.9;
+            margin-bottom: 0.5rem;
+            color: #ffffff;
+        }
+
+        .profile-tag {
+            font-size: 0.9rem;
+            font-weight: 300;
+            letter-spacing: 3px;
+            color: rgba(255, 255, 255, 0.6);
+            margin-bottom: 2rem;
+        }
+
+        /* Accounts Section */
+        .accounts-section {
+            margin-bottom: 2.5rem;
+        }
+
+        .section-title {
+            font-size: 0.8rem;
+            font-weight: 400;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.4);
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .account-item {
-            background: rgba(255, 255, 255, 0.03); /* More transparent */
-            border: 1px solid rgba(255, 255, 255, 0.06); /* More subtle */
-            padding: 10px 12px;
-            border-radius: 6px;
-            margin: 8px 0;
-            font-family: 'Consolas', monospace;
-            font-size: 13px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 10px;
+            padding: 1rem;
+            margin-bottom: 0.75rem;
+            font-family: 'JetBrains Mono', 'Consolas', monospace;
+            font-size: 0.9rem;
             letter-spacing: 1px;
             word-break: break-all;
-            color: rgba(255, 255, 255, 0.7); /* More subtle */
-            transition: all 0.3s;
+            color: rgba(255, 255, 255, 0.8);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .account-item::before {
+            content: '>';
+            color: rgba(0, 255, 255, 0.4);
+            font-size: 0.8rem;
+            opacity: 0;
+            transition: opacity 0.3s ease;
         }
 
         .account-item:hover {
             background: rgba(255, 255, 255, 0.06);
-            border-color: rgba(255, 255, 255, 0.12);
-            transform: translateX(3px);
+            border-color: rgba(0, 255, 255, 0.2);
+            transform: translateX(10px);
         }
 
-        /* Servers Frame (right) */
-        .servers-frame {
-            width: 320px;
+        .account-item:hover::before {
+            opacity: 1;
         }
 
-        /* Server Item */
-        .server-item {
-            display: flex;
-            align-items: center;
-            background: rgba(255, 255, 255, 0.03); /* More transparent */
-            border: 1px solid rgba(255, 255, 255, 0.06); /* More subtle */
-            border-radius: 6px;
-            padding: 12px;
-            margin-bottom: 12px;
-            transition: all 0.3s;
+        /* Servers Section */
+        .servers-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+        }
+
+        .server-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            padding: 1.2rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             cursor: pointer;
-            gap: 12px;
+            position: relative;
+            overflow: hidden;
         }
 
-        .server-item:hover {
+        .server-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 255, 255, 0.05), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .server-card:hover {
             background: rgba(255, 255, 255, 0.06);
-            border-color: rgba(255, 255, 255, 0.12);
+            border-color: rgba(0, 255, 255, 0.2);
             transform: translateY(-2px);
+        }
+
+        .server-card:hover::before {
+            left: 100%;
         }
 
         .server-icon {
             width: 40px;
             height: 40px;
             border-radius: 50%;
-            object-fit: cover;
-            border: 1px solid rgba(255, 255, 255, 0.1); /* More subtle */
-            background: rgba(20, 20, 20, 0.5); /* More transparent */
-            flex-shrink: 0;
-        }
-
-        .server-details {
-            flex: 1;
-            min-width: 0;
+            margin-bottom: 0.75rem;
+            background: rgba(20, 20, 20, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.4);
+            overflow: hidden;
         }
 
         .server-name {
-            font-size: 14px;
+            font-size: 0.9rem;
             font-weight: 400;
-            color: rgba(255, 255, 255, 0.8); /* More subtle */
-            margin-bottom: 3px;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 0.25rem;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
         }
 
         .server-members {
-            font-size: 11px;
-            color: rgba(255, 255, 255, 0.4); /* More subtle */
+            font-size: 0.75rem;
+            color: rgba(255, 255, 255, 0.4);
             letter-spacing: 0.5px;
         }
 
-        .server-join {
-            flex-shrink: 0;
-            color: rgba(255, 255, 255, 0.3); /* More subtle */
-            font-size: 12px;
-            opacity: 0.5;
+        /* Footer */
+        .site-footer {
+            margin-top: 2.5rem;
+            text-align: center;
         }
 
-        /* Simple fade animation */
+        .footer-text {
+            font-size: 0.7rem;
+            font-weight: 300;
+            letter-spacing: 2px;
+            color: rgba(255, 255, 255, 0.2);
+            text-transform: uppercase;
+        }
+
+        /* Animations */
         @keyframes fadeIn {
             from { opacity: 0; }
-            to { opacity: 0.9; }
+            to { opacity: 1; }
         }
 
-        .entry-text {
-            animation: fadeIn 1.5s ease-in-out;
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes scanline {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(4px); }
+        }
+
+        @keyframes fadeInScale {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
         }
 
         /* Responsive */
-        @media (max-width: 900px) {
-            .frames-container {
-                flex-direction: column;
-                align-items: center;
-                gap: 30px;
-                padding: 20px;
+        @media (max-width: 768px) {
+            .modern-frame {
+                padding: 2rem;
+                max-width: 90%;
             }
             
-            .main-frame, .servers-frame {
-                width: 90%;
-                max-width: 400px;
+            .servers-grid {
+                grid-template-columns: 1fr;
             }
             
-            .entry-text {
-                font-size: 18px;
+            .entry-title {
+                letter-spacing: 4px;
+                font-size: 2rem;
+            }
+            
+            .entry-subtitle {
                 letter-spacing: 3px;
             }
+        }
+
+        @media (max-width: 480px) {
+            .modern-frame {
+                padding: 1.5rem;
+            }
             
-            .gif-bg {
-                transform: scale(1) translateZ(0); /* Reset scale on mobile */
+            .profile-image {
+                width: 100px;
+                height: 100px;
+            }
+            
+            .profile-name {
+                font-size: 1.4rem;
+                letter-spacing: 4px;
             }
         }
     </style>
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet">
 </head>
 <body>
     <!-- Entry Screen -->
     <div id="entryScreen">
-        <div class="entry-text">
-            mev/ipv6
+        <div class="entry-content">
+            <div class="entry-title">mev/ipv6</div>
+            <div class="entry-subtitle">enter the depths</div>
+            <div class="enter-hint">click anywhere to enter</div>
         </div>
     </div>
 
     <!-- Main Content -->
     <div id="mainContent">
-        <!-- GIF Background - Scaled back -->
-        <img src="https://raw.githubusercontent.com/ikiikikikijujijij-oss/encode/refs/heads/main/life.gif" alt="" class="gif-bg" id="bgGif" loading="eager" decoding="async">
+        <!-- Background Effects -->
+        <div class="gradient-bg"></div>
+        <div class="scanlines"></div>
+        <div class="glitch-overlay"></div>
         
-        <!-- Dark overlay to push background further back -->
-        <div class="bg-overlay"></div>
-        
-        <div class="content">
-            <div class="frames-container" id="framesContainer">
-                <!-- Left Frame -->
-                <div class="frame main-frame" id="leftFrame">
-                    <div class="frame-title">mev/ipv6</div>
-                    <img src="https://i.pinimg.com/736x/97/d3/1d/97d31d307fb2dd2b856a69e6d7ba7560.jpg" alt="" class="main-pfp" loading="eager">
-                    <div class="site-title">mev/ipv6</div>
-                    
+        <!-- Main Container -->
+        <div class="main-container">
+            <div class="modern-frame" id="mainFrame">
+                <!-- Profile Section -->
+                <div class="profile-header">
+                    <img src="https://i.pinimg.com/736x/97/d3/1d/97d31d307fb2dd2b856a69e6d7ba7560.jpg" 
+                         alt="Profile" 
+                         class="profile-image"
+                         loading="eager">
+                    <div class="profile-name">mev/ipv6</div>
+                    <div class="profile-tag">terminal access granted</div>
+                </div>
+                
+                <!-- Accounts Section -->
+                <div class="accounts-section">
+                    <div class="section-title">accounts</div>
                     <div class="account-item">
                         mev/98fv
                     </div>
-                    
                     <div class="account-item">
                         mev/sliceyourwristformev
                     </div>
                 </div>
                 
-                <!-- Right Frame -->
-                <div class="frame servers-frame" id="rightFrame">
-                    <div class="frame-title">servers</div>
-                    
-                    <!-- Server 1 -->
-                    <div class="server-item" id="server1">
-                        <div class="server-icon" id="serverIcon1">
-                            <div style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; color: rgba(255,255,255,0.2); font-size: 14px;">
-                                ...
+                <!-- Servers Section -->
+                <div class="accounts-section">
+                    <div class="section-title">servers</div>
+                    <div class="servers-grid">
+                        <!-- Server 1 -->
+                        <div class="server-card" id="server1">
+                            <div class="server-icon" id="serverIcon1">
+                                <div>...</div>
+                            </div>
+                            <div class="server-details">
+                                <div class="server-name" id="serverName1">Loading...</div>
+                                <div class="server-members" id="serverMembers1">- members</div>
                             </div>
                         </div>
-                        <div class="server-details">
-                            <div class="server-name" id="serverName1">Loading server...</div>
-                            <div class="server-members" id="serverMembers1">- members</div>
-                        </div>
-                        <div class="server-join">→</div>
-                    </div>
-                    
-                    <!-- Server 2 -->
-                    <div class="server-item" id="server2">
-                        <div class="server-icon" id="serverIcon2">
-                            <div style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; color: rgba(255,255,255,0.2); font-size: 14px;">
-                                ...
+                        
+                        <!-- Server 2 -->
+                        <div class="server-card" id="server2">
+                            <div class="server-icon" id="serverIcon2">
+                                <div>...</div>
+                            </div>
+                            <div class="server-details">
+                                <div class="server-name" id="serverName2">Loading...</div>
+                                <div class="server-members" id="serverMembers2">- members</div>
                             </div>
                         </div>
-                        <div class="server-details">
-                            <div class="server-name" id="serverName2">Loading server...</div>
-                            <div class="server-members" id="serverMembers2">- members</div>
-                        </div>
-                        <div class="server-join">→</div>
                     </div>
+                </div>
+                
+                <!-- Footer -->
+                <div class="site-footer">
+                    <div class="footer-text">system active • connection secure</div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Audio Element (hidden, auto-plays) -->
-    <audio id="bgAudio" loop preload="auto" autoplay>
+    <!-- Audio Element -->
+    <audio id="bgAudio" loop preload="auto">
         <source src="https://github.com/ikiikikikijujijij-oss/encode/raw/refs/heads/main/life.mp3" type="audio/mpeg">
     </audio>
 
@@ -372,6 +550,7 @@
         // DOM elements
         const entryScreen = document.getElementById('entryScreen');
         const mainContent = document.getElementById('mainContent');
+        const mainFrame = document.getElementById('mainFrame');
         const bgAudio = document.getElementById('bgAudio');
         
         // Server data
@@ -389,12 +568,6 @@
                 elementId: 'server2'
             }
         ];
-
-        // Mouse movement variables
-        let mouseX = 0;
-        let mouseY = 0;
-        let windowWidth = window.innerWidth;
-        let windowHeight = window.innerHeight;
 
         // Fetch Discord server information
         async function fetchServerInfo(inviteCode) {
@@ -448,7 +621,7 @@
                 const initials = guild.name 
                     ? guild.name.split(' ').map(word => word[0]).join('').toUpperCase().substring(0, 2)
                     : '??';
-                iconElement.innerHTML = `<div style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; color: rgba(255,255,255,0.4); font-size: 16px; font-weight: 300;">${initials}</div>`;
+                iconElement.innerHTML = `<div style="display: flex; align-items: center; justify-content: center; width: 100%; height: 100%; color: rgba(255,255,255,0.4); font-size: 14px;">${initials}</div>`;
             }
             
             // Make clickable
@@ -472,74 +645,74 @@
 
         // Entry screen click
         entryScreen.addEventListener('click', async function() {
-            // Fade out
+            // Fade out entry screen
             entryScreen.style.opacity = '0';
-            entryScreen.style.transition = 'opacity 0.4s';
             
             setTimeout(async () => {
+                // Hide entry screen
                 entryScreen.style.display = 'none';
+                
+                // Show main content
                 mainContent.style.display = 'block';
                 
-                // Fade in
-                mainContent.style.opacity = '0';
+                // Animate main content in
                 setTimeout(() => {
                     mainContent.style.opacity = '1';
-                    mainContent.style.transition = 'opacity 0.4s';
-                }, 50);
+                    mainContent.style.transition = 'opacity 0.6s ease';
+                    
+                    // Animate frame
+                    mainFrame.style.animation = 'fadeInScale 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards';
+                    mainFrame.style.opacity = '1';
+                    mainFrame.style.transform = 'translateY(0)';
+                }, 100);
                 
-                // Start loading server data
+                // Load server data
                 loadServerData();
                 
-                // Start audio (muted by default, auto-plays)
-                bgAudio.volume = 0.3; // Lower volume
-                bgAudio.play().catch(e => {
+                // Start audio
+                try {
+                    bgAudio.volume = 0.3;
+                    await bgAudio.play();
+                } catch (e) {
                     console.log("Audio requires interaction");
-                });
+                }
                 
-                // Initialize mouse movement effect
+                // Add mouse move effect
                 initMouseEffect();
-            }, 400);
+            }, 800);
         });
 
         // Mouse movement effect
         function initMouseEffect() {
-            const leftFrame = document.getElementById('leftFrame');
-            const rightFrame = document.getElementById('rightFrame');
-            
             document.addEventListener('mousemove', function(e) {
-                mouseX = e.clientX;
-                mouseY = e.clientY;
+                const x = e.clientX / window.innerWidth - 0.5;
+                const y = e.clientY / window.innerHeight - 0.5;
                 
-                // Calculate movement
-                const moveX = (mouseX / windowWidth) * 2 - 1;
-                const moveY = (mouseY / windowHeight) * 2 - 1;
-                
-                // Apply subtle movement to frames
-                if (leftFrame) {
-                    leftFrame.style.transform = `translateX(${moveX * -6}px) translateY(${moveY * -6}px) rotateY(${moveX * 0.8}deg)`;
-                }
-                
-                if (rightFrame) {
-                    rightFrame.style.transform = `translateX(${moveX * 6}px) translateY(${moveY * 6}px) rotateY(${moveX * -0.8}deg)`;
-                }
+                // Subtle parallax effect
+                mainFrame.style.transform = `
+                    perspective(1000px) 
+                    rotateX(${y * 2}deg) 
+                    rotateY(${x * 2}deg) 
+                    translateZ(0)
+                `;
             });
             
-            // Handle resize
-            window.addEventListener('resize', function() {
-                windowWidth = window.innerWidth;
-                windowHeight = window.innerHeight;
+            // Reset on mouse leave
+            document.addEventListener('mouseleave', function() {
+                mainFrame.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) translateZ(0)';
             });
         }
 
-        // Auto-enter after 2 seconds
+        // Auto-enter after 3 seconds
         setTimeout(() => {
             if (entryScreen.style.display !== 'none') {
                 entryScreen.click();
             }
-        }, 2000);
+        }, 3000);
 
-        // Spacebar to mute/unmute audio
+        // Keyboard controls
         document.addEventListener('keydown', function(e) {
+            // Space to play/pause audio
             if (e.code === 'Space') {
                 e.preventDefault();
                 if (bgAudio.paused) {
@@ -549,12 +722,32 @@
                 }
             }
             
-            // 'M' key to mute/unmute
+            // M to mute/unmute
             if (e.code === 'KeyM') {
                 e.preventDefault();
                 bgAudio.muted = !bgAudio.muted;
             }
+            
+            // R to reload servers
+            if (e.code === 'KeyR' && e.ctrlKey) {
+                e.preventDefault();
+                loadServerData();
+            }
         });
+
+        // Add subtle glitch effect randomly
+        function randomGlitch() {
+            if (Math.random() > 0.98) {
+                document.querySelector('.glitch-overlay').style.opacity = '0.3';
+                setTimeout(() => {
+                    document.querySelector('.glitch-overlay').style.opacity = '0.1';
+                }, 50);
+            }
+            setTimeout(randomGlitch, Math.random() * 3000 + 1000);
+        }
+        
+        // Start glitch effect after page loads
+        setTimeout(randomGlitch, 2000);
     </script>
 </body>
 </html>
